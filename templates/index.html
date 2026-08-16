@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Gestão de Tempo</title>
+
+    <a href="/logout" class="botao-logout">
+    🚪 Sair
+    </a>    
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+    <header>
+
+        <h1>⏱️ Gestão de Tempo</h1>
+
+        <div id="relogio">
+            00:00:00
+        </div>
+
+    </header>
+
+
+    <main>
+
+        <section class="boas-vindas">
+
+<h2 id="saudacao"></h2>
+
+<span id="nomeUsuario" style="display:none;">
+    {{ usuario.nome }}
+</span>
+
+            <p>
+                Organize suas tarefas e controle seu tempo.
+            </p>
+
+        </section>
+
+
+        <section class="cards">
+
+            <div class="card">
+
+                <h3>📋 Tarefas</h3>
+        <strong id="totalTarefas">
+               {{ total_tarefas }}
+        </strong>
+
+                <p>Total</p>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>✅ Concluídas</h3>
+
+                <strong id="tarefasConcluidas">
+                    0
+                </strong>
+
+                <p>Hoje</p>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>⏱️ Tempo de foco</h3>
+
+                <strong id="tempoFoco">
+                    00:00
+                </strong>
+
+                <p>Hoje</p>
+
+            </div>
+
+        </section>
+
+<section class="card grande">
+
+    <div class="titulo-tarefas">
+
+        <h2>📅 Tarefas de hoje</h2>
+
+        <button id="novaTarefa">
+            + Nova tarefa
+        </button>
+
+    </div>
+
+
+
+
+   <div id="listaTarefas">
+
+
+{% if tarefas %}
+
+
+    {% for tarefa in tarefas %}
+
+        <div class="tarefa">
+
+
+            <div>
+
+                <strong>
+                    {{ tarefa.horario }} — {{ tarefa.nome }}
+                </strong>
+
+
+                <p>
+                    ⏱️ Planejado:
+                    {{ tarefa.duracao }}
+
+                    |
+
+                    📂 {{ tarefa.categoria }}
+
+                    |
+
+                    🔥 {{ tarefa.prioridade }}
+                </p>
+
+
+                <p class="tempo-real">
+
+                    ⏱️ Tempo realizado:
+                    00:00:00
+
+                </p>
+                a
+
+<div>
+
+    <button class="iniciar">
+        ▶ Iniciar
+    </button>
+
+
+    <button class="concluir">
+        ✓ Concluir
+    </button>
+
+
+    <button class="editar">
+        ✏️ Editar
+    </button>
+
+
+    <button class="excluir">
+        🗑️ Excluir
+    </button>
+
+</div>
+            </div>
+
+
+        </div>
+
+
+    {% endfor %}
+
+
+{% else %}
+
+
+    <p>
+        Nenhuma tarefa cadastrada.
+    </p>
+
+
+{% endif %}
+
+
+</div>
+
+</section>
+
+
+      
+<div id="modalTarefa" class="modal">
+
+    <div class="modal-conteudo">
+        <form id="formTarefa" method="POST" action="/criar_tarefa">
+
+        <div class="modal-cabecalho">
+
+            <h2>Nova tarefa</h2>
+
+            <button id="fecharModal">
+                ✕
+            </button>
+
+        </div>
+
+
+        <label for="nomeTarefa">
+            Nome da tarefa
+        </label>
+
+        <input
+            type="text"
+            id="nomeTarefa"
+            name="nome"
+            placeholder="Ex: Estudar Python"
+        >
+
+
+        <label for="horarioTarefa">
+            Horário
+        </label>
+
+        <input
+            type="time"
+            id="horarioTarefa"
+            name="horario"
+        >
+
+
+        <label for="duracaoTarefa">
+            Duração
+        </label>
+
+        <input
+            type="time"
+            id="duracaoTarefa"
+            name="duracao"
+            value="01:00"
+        >
+
+
+        <label for="categoriaTarefa">
+            Categoria
+        </label>
+
+        <select id="categoriaTarefa"  name="categoria">>
+
+            <option value="Estudos">
+                📚 Estudos
+            </option>
+
+            <option value="Trabalho">
+                💼 Trabalho
+            </option>
+
+            <option value="Projeto">
+                💻 Projeto
+            </option>
+
+            <option value="Exercício">
+                🏋️ Exercício
+            </option>
+
+            <option value="Pessoal">
+                👤 Pessoal
+            </option>
+
+        </select>
+
+
+        <label for="prioridadeTarefa">
+            Prioridade
+        </label>
+
+        <select id="prioridadeTarefa" name ="prioridade">
+
+            <option value="Baixa">
+                🟢 Baixa
+            </option>
+
+            <option value="Média">
+                🟡 Média
+            </option>
+
+            <option value="Alta">
+                🔴 Alta
+            </option>
+
+        </select>
+
+
+        <div class="modal-botoes">
+
+            <button id="cancelarTarefa">
+                Cancelar
+            </button>
+
+            <button id="salvarTarefa" type="submit">
+                Salvar tarefa
+            </button>
+
+        </div>
+        </form>
+    </div>
+
+</div>
+
+    </main>
+
+
+    <script
+        src="{{ url_for('static', filename='js/script.js') }}">
+    </script>
+
+</body>
+
+</html>

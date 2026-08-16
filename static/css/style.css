@@ -1,0 +1,586 @@
+/* ========================================
+   CONFIGURAÇÕES GERAIS
+======================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+
+    font-family: Arial, sans-serif;
+
+    background-color: #04011a;
+
+    color: #f1eded;
+
+}
+
+
+
+/* ========================================
+   CABEÇALHO
+======================================== */
+
+header {
+
+    background-color: #1f2937;
+
+    color: white;
+
+    padding: 20px 40px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+}
+
+
+header h1 {
+
+    font-size: 24px;
+
+}
+
+
+#relogio {
+
+    font-size: 20px;
+
+    font-weight: bold;
+
+}
+
+
+
+/* ========================================
+   CONTEÚDO
+======================================== */
+
+main {
+
+    max-width: 1100px;
+
+    margin: 40px auto;
+
+    padding: 0 20px;
+
+}
+
+
+
+/* ========================================
+   BOAS-VINDAS
+======================================== */
+
+.boas-vindas {
+
+    margin-bottom: 30px;
+
+}
+
+
+.boas-vindas h2 {
+
+    font-size: 28px;
+
+    margin-bottom: 8px;
+
+}
+
+
+
+/* ========================================
+   CARDS
+======================================== */
+
+.cards {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 20px;
+
+    margin-bottom: 25px;
+
+}
+
+
+.card {
+
+    background-color: rgb(233, 109, 15);
+
+    padding: 25px;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 3px 10px
+        rgba(0, 0, 0, 0.08);
+
+}
+
+
+.cards .card {
+
+    text-align: center;
+
+}
+
+
+.card h3 {
+
+    margin-bottom: 15px;
+
+}
+
+
+.card strong {
+
+    display: block;
+
+    font-size: 35px;
+
+    margin-bottom: 5px;
+
+}
+
+
+.grande {
+
+    min-height: 250px;
+
+}
+
+
+
+/* ========================================
+   TÍTULO DAS TAREFAS
+======================================== */
+
+.titulo-tarefas {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 25px;
+
+}
+
+
+
+/* ========================================
+   BOTÃO NOVA TAREFA
+======================================== */
+
+#novaTarefa {
+
+    background-color: #2563eb;
+
+    color: white;
+
+    border: none;
+
+    padding: 10px 18px;
+
+    border-radius: 8px;
+
+    font-size: 15px;
+
+    cursor: pointer;
+
+}
+
+
+#novaTarefa:hover {
+
+    background-color: #1d4ed8;
+
+}
+
+
+
+/* ========================================
+   TAREFA
+======================================== */
+
+.tarefa {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 20px;
+
+    padding: 18px;
+
+    margin-bottom: 12px;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 10px;
+
+    background-color: #fafafa;
+
+}
+
+
+.tarefa strong {
+
+    font-size: 17px;
+
+}
+
+
+.tarefa p {
+
+    margin-top: 8px;
+
+    color: #400303;
+
+    font-size: 14px;
+
+}
+
+
+.tempo-real {
+
+    font-weight: bold;
+
+}
+
+
+
+/* ========================================
+   BOTÕES DAS TAREFAS
+======================================== */
+
+.tarefa button {
+
+    border: none;
+
+    padding: 8px 12px;
+
+    border-radius: 6px;
+
+    cursor: pointer;
+
+    margin-left: 5px;
+
+    color: white;
+
+}
+
+
+.tarefa .iniciar {
+
+    background-color: #22c55e;
+
+}
+
+
+.tarefa .concluir {
+
+    background-color: #2563eb;
+
+}
+
+
+.tarefa .editar {
+
+    background-color: #f59e0b;
+
+}
+
+
+.tarefa .excluir {
+
+    background-color: #ef4444;
+
+}
+
+
+
+/* ========================================
+   TAREFA CONCLUÍDA
+======================================== */
+
+.tarefa.concluida {
+
+    opacity: 0.6;
+
+    background-color: #f0fdf4;
+
+}
+
+
+.tarefa.concluida strong {
+
+    text-decoration: line-through;
+
+}
+
+
+.tarefa.concluida p {
+
+    text-decoration: line-through;
+
+}
+
+
+.tarefa.concluida .concluir {
+
+    background-color: #6b7280;
+
+}
+
+
+
+/* ========================================
+   MODAL
+======================================== */
+
+.modal {
+
+    display: none;
+
+    position: fixed;
+
+    top: 0;
+
+    left: 0;
+
+    width: 100%;
+
+    height: 100%;
+
+    background-color:
+        rgba(0, 0, 0, 0.5);
+
+    justify-content: center;
+
+    align-items: center;
+
+    padding: 20px;
+
+}
+
+
+
+/* ========================================
+   CONTEÚDO DO MODAL
+======================================== */
+
+.modal-conteudo {
+
+    background-color: white;
+
+    width: 100%;
+
+    max-width: 500px;
+
+    padding: 25px;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 10px 30px
+        rgba(0, 0, 0, 0.2);
+
+}
+
+
+
+/* ========================================
+   CABEÇALHO DO MODAL
+======================================== */
+
+.modal-cabecalho {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 25px;
+
+}
+
+
+.modal-cabecalho h2 {
+
+    margin: 0;
+
+}
+
+
+#fecharModal {
+
+    border: none;
+
+    background: transparent;
+
+    font-size: 20px;
+
+    cursor: pointer;
+
+}
+
+
+
+/* ========================================
+   FORMULÁRIO
+======================================== */
+
+.modal-conteudo label {
+
+    display: block;
+
+    margin-top: 15px;
+
+    margin-bottom: 6px;
+
+    font-weight: bold;
+
+}
+
+
+.modal-conteudo input,
+.modal-conteudo select {
+
+    width: 100%;
+
+    padding: 11px;
+
+    border: 1px solid #ccc;
+
+    border-radius: 7px;
+
+    font-size: 15px;
+
+}
+
+
+
+/* ========================================
+   BOTÕES DO MODAL
+======================================== */
+
+.modal-botoes {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    margin-top: 25px;
+
+}
+
+
+#cancelarTarefa {
+
+    background-color: #e5e7eb;
+
+    border: none;
+
+    padding: 10px 16px;
+
+    border-radius: 7px;
+
+    cursor: pointer;
+
+}
+
+
+#salvarTarefa {
+
+    background-color: #2563eb;
+
+    color: white;
+
+    border: none;
+
+    padding: 10px 16px;
+
+    border-radius: 7px;
+
+    cursor: pointer;
+
+}
+
+
+
+/* ========================================
+   RESPONSIVIDADE
+======================================== */
+
+@media (max-width: 700px) {
+
+    header {
+
+        flex-direction: column;
+
+        gap: 10px;
+
+        text-align: center;
+
+    }
+
+
+    .cards {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .tarefa {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+    }
+
+}
+
+.botao-logout {
+
+    display: inline-block;
+
+    padding: 10px 20px;
+
+    background-color: rgb(233, 109, 15);
+
+    color: white;
+
+    text-decoration: none;
+
+    border-radius: 8px;
+
+    font-weight: bold;
+
+}
+
+
+.botao-logout:hover {
+
+    background-color:rgb(152, 7, 7);
+
+}
