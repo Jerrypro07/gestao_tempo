@@ -1,34 +1,240 @@
-<form method="POST">
+<!DOCTYPE html>
+<html lang="pt-BR">
 
-    <label>Email:</label>
-    <br>
+<head>
 
-    <input 
-        type="email" 
-        name="email"
-        required>
+    <meta charset="UTF-8">
 
-    <br><br>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Login | Gestão de Tempo</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/login.css') }}"
+    >
+
+</head>
+
+<body>
+
+<div class="login-page">
+
+    <!-- =====================================
+         LADO ESQUERDO
+    ====================================== -->
+
+    <section class="painel-esquerdo">
+
+        <div class="marca">
+
+            <div class="logo">
+                ⏱
+            </div>
+
+            <span>
+                Gestão de Tempo
+            </span>
+
+        </div>
 
 
-    <label>Senha:</label>
-    <br>
+        <div class="apresentacao">
 
-    <input 
-        type="password"
-        name="senha"
-        required>
+            <span class="tag">
+                ORGANIZE • FOQUE • REALIZE
+            </span>
 
-    <br><br>
+            <h1>
 
+                Seu tempo.
+                <br>
 
-    <button type="submit">
-        Entrar
-    </button>
+                <strong>Seu controle.</strong>
 
-</form>
+            </h1>
 
 
-<a href="/cadastro">
-Criar conta
-</a>
+            <p>
+
+                Organize suas tarefas, acompanhe
+                seu progresso e transforme seu tempo
+                em resultados.
+
+            </p>
+
+
+            <div class="linha-laranja"></div>
+
+
+            <div class="beneficios">
+
+                <div>
+
+                    <span>✓</span>
+
+                    Organize suas tarefas
+
+                </div>
+
+
+                <div>
+
+                    <span>✓</span>
+
+                    Controle seu tempo
+
+                </div>
+
+
+                <div>
+
+                    <span>✓</span>
+
+                    Acompanhe seu progresso
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="rodape-esquerdo">
+
+            Gestão de Tempo © 2026
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================
+         LADO DIREITO
+    ====================================== -->
+
+    <section class="painel-direito">
+
+        <div class="login-box">
+
+
+            <div class="cabecalho-login">
+
+                <span class="bem-vindo">
+                    BEM-VINDO DE VOLTA
+                </span>
+
+
+                <h2>
+                    Entrar na sua conta
+                </h2>
+
+
+                <p>
+                    Acesse seu painel de gestão de tempo.
+                </p>
+
+            </div>
+
+
+            <form
+                method="POST"
+                action="{{ url_for('login') }}"
+            >
+
+
+                <!-- EMAIL -->
+
+                <div class="campo">
+
+                    <label for="email">
+                        E-mail
+                    </label>
+
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="seu@email.com"
+                        autocomplete="email"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- SENHA -->
+
+                <div class="campo">
+
+                    <div class="label-senha">
+
+                        <label for="senha">
+                            Senha
+                        </label>
+
+
+                        <a
+                            href="{{ url_for('esqueci_senha') }}"
+                        >
+                            Esqueci minha senha
+                        </a>
+
+                    </div>
+
+
+                    <input
+                        type="password"
+                        id="senha"
+                        name="senha"
+                        placeholder="Digite sua senha"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- BOTÃO -->
+
+                <button
+                    type="submit"
+                    class="botao-entrar"
+                >
+
+                    Entrar
+
+                    <span>→</span>
+
+                </button>
+
+            </form>
+
+
+            <!-- CRIAR CONTA -->
+
+            <div class="criar-conta">
+
+                <span>
+                    Ainda não possui uma conta?
+                </span>
+
+
+                <a href="{{ url_for('cadastro') }}">
+                    Criar conta
+                </a>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+</div>
+
+</body>
+
+</html>

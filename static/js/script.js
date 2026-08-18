@@ -1,44 +1,105 @@
 let tarefaEditando = null;
 let tempoFocoTotal = 0;
 
-console.log("Tempo de foco iniciado:", tempoFocoTotal);
 
+// =====================================================
+// RELÓGIO PRINCIPAL
+// =====================================================
 
 function atualizarRelogio() {
 
     const agora = new Date();
 
-
     const horas =
         String(agora.getHours()).padStart(2, "0");
-
 
     const minutos =
         String(agora.getMinutes()).padStart(2, "0");
 
-
     const segundos =
         String(agora.getSeconds()).padStart(2, "0");
 
+    const relogio =
+        document.getElementById("relogio");
 
-    const horario =
-        `${horas}:${minutos}:${segundos}`;
+    if (relogio) {
 
+        relogio.textContent =
+            `${horas}:${minutos}:${segundos}`;
 
-    document.getElementById("relogio").textContent =
-        horario;
+    }
 }
 
 
-setInterval(atualizarRelogio, 1000);
+setInterval(
+    atualizarRelogio,
+    1000
+);
 
 atualizarRelogio();
 
+
+// =====================================================
+// SAUDAÇÃO
+// =====================================================
+
+function atualizarSaudacao() {
+
+    const agora = new Date();
+
+    const hora =
+        agora.getHours();
+
+    let saudacao;
+
+
+    if (hora >= 5 && hora < 12) {
+
+        saudacao = "Bom dia";
+
+    } else if (hora >= 12 && hora < 18) {
+
+        saudacao = "Boa tarde";
+
+    } else {
+
+        saudacao = "Boa noite";
+
+    }
+
+
+    const elementoNome =
+        document.getElementById("nomeUsuario");
+
+    const elementoSaudacao =
+        document.getElementById("saudacao");
+
+
+    if (!elementoNome || !elementoSaudacao) {
+
+        return;
+
+    }
+
+const nomeCompleto =
+    elementoNome.textContent.trim();
+
+const primeiroNome =
+    nomeCompleto.split(/\s+/)[0];
+
+
+elementoSaudacao.textContent =
+    `${saudacao}, ${primeiroNome} 👋`;
+
+}
+
+
 atualizarSaudacao();
 
-// ========================================
+
+// =====================================================
 // MODAL DE NOVA TAREFA
-// ========================================
+// =====================================================
 
 const botaoNovaTarefa =
     document.getElementById("novaTarefa");
@@ -53,128 +114,282 @@ const botaoCancelar =
     document.getElementById("cancelarTarefa");
 
 
-// ABRIR MODAL
+if (botaoNovaTarefa && modalTarefa) {
 
-botaoNovaTarefa.addEventListener(
-    "click",
-    function () {
+    botaoNovaTarefa.addEventListener(
+        "click",
+        function () {
 
-        modalTarefa.style.display = "flex";
+            modalTarefa.style.display = "flex";
 
-    }
-);
+        }
+    );
 
-
-// FECHAR MODAL
-
-botaoFechar.addEventListener(
-    "click",
-    function () {
-
-        modalTarefa.style.display = "none";
-
-    }
-);
-
-
-// CANCELAR
-
-botaoCancelar.addEventListener(
-    "click",
-    function () {
-
-        modalTarefa.style.display = "none";
-
-    }
-);
-
-// ========================================
-// SALVAR TAREFA
-// ========================================
-
-const botaoSalvar =
-    document.getElementById("salvarTarefa");
-
-botaoSalvar.addEventListener(
-    "click",
-    function (evento) {
-
-        evento.preventDefault();
-
-        const nome =
-            document.getElementById("nomeTarefa").value;
-
-        const horario =
-            document.getElementById("horarioTarefa").value;
-
-        const duracao =
-            document.getElementById("duracaoTarefa").value;
-
-        const categoria =
-            document.getElementById("categoriaTarefa").value;
-
-        const prioridade =
-            document.getElementById("prioridadeTarefa").value;
-if (tarefaEditando !== null) {
-
-    const titulo =
-        tarefaEditando.querySelector("strong");
-
-    titulo.textContent =
-        `${horario} — ${nome}`;
-
-
-    const informacoes =
-        tarefaEditando.querySelector(
-            "p:not(.tempo-real)"
-        );
-
-    informacoes.textContent =
-        `⏱️ Planejado: ${duracao} | 📂 ${categoria} | 🔥 ${prioridade}`;
-
-
-    tarefaEditando = null;
-
-
-    document.getElementById(
-        "modalTarefa"
-    ).style.display = "none";
-
-
-    return;
 }
 
-mostrarTarefa(
-    nome,
-    horario,
-    duracao,
-    categoria,
-    prioridade
-);
+
+if (botaoFechar && modalTarefa) {
+
+    botaoFechar.addEventListener(
+        "click",
+        function () {
+
+            modalTarefa.style.display = "none";
+
+        }
+    );
+
+}
 
 
-atualizarDashboard();
+if (botaoCancelar && modalTarefa) {
+
+    botaoCancelar.addEventListener(
+        "click",
+        function () {
+
+            modalTarefa.style.display = "none";
+
+        }
+    );
+
+}
 
 
-// enviar para o banco
+// =====================================================
+// ATUALIZAR DASHBOARD
+// =====================================================
 
-document.getElementById(
-    "formTarefa"
-).submit();
+function atualizarDashboard() {
+
+    const totalTarefas =
+        document.querySelectorAll(
+            ".tarefa"
+        ).length;
 
 
-        console.log("Nome:", nome);
+    const cardTarefas =
+        document.getElementById(
+            "totalTarefas"
+        );
 
-        console.log("Horário:", horario);
 
-        console.log("Duração:", duracao);
+    if (cardTarefas) {
 
-        console.log("Categoria:", categoria);
-
-        console.log("Prioridade:", prioridade);
+        cardTarefas.textContent =
+            totalTarefas;
 
     }
-);
+
+
+    const tarefasConcluidas =
+        document.querySelectorAll(
+            ".tarefa.concluida"
+        ).length;
+
+
+    const cardConcluidas =
+        document.getElementById(
+            "tarefasConcluidas"
+        );
+
+
+    if (cardConcluidas) {
+
+        cardConcluidas.textContent =
+            tarefasConcluidas;
+
+    }
+
+
+    atualizarTempoFoco();
+
+}
+
+
+// =====================================================
+// ATUALIZAR TEMPO DE FOCO
+// =====================================================
+
+function atualizarTempoFoco() {
+
+    const horas =
+        Math.floor(
+            tempoFocoTotal / 3600
+        );
+
+    const minutos =
+        Math.floor(
+            (tempoFocoTotal % 3600) / 60
+        );
+
+    const segundos =
+        tempoFocoTotal % 60;
+
+
+    const h =
+        String(horas).padStart(2, "0");
+
+    const m =
+        String(minutos).padStart(2, "0");
+
+    const s =
+        String(segundos).padStart(2, "0");
+
+
+    const elementoFoco =
+        document.getElementById(
+            "tempoFoco"
+        );
+
+
+    if (elementoFoco) {
+
+        elementoFoco.textContent =
+            `${h}:${m}:${s}`;
+
+    }
+
+}
+
+
+// =====================================================
+// SALVAR / EDITAR TAREFA
+// =====================================================
+
+const botaoSalvar =
+    document.getElementById(
+        "salvarTarefa"
+    );
+
+
+if (botaoSalvar) {
+
+    botaoSalvar.addEventListener(
+        "click",
+        function (evento) {
+
+            evento.preventDefault();
+
+
+            const nome =
+                document.getElementById(
+                    "nomeTarefa"
+                ).value;
+
+            const horario =
+                document.getElementById(
+                    "horarioTarefa"
+                ).value;
+
+            const duracao =
+                document.getElementById(
+                    "duracaoTarefa"
+                ).value;
+
+            const categoria =
+                document.getElementById(
+                    "categoriaTarefa"
+                ).value;
+
+            const prioridade =
+                document.getElementById(
+                    "prioridadeTarefa"
+                ).value;
+
+
+            // =========================================
+            // EDITAR TAREFA EXISTENTE
+            // =========================================
+
+            if (tarefaEditando !== null) {
+
+                const titulo =
+                    tarefaEditando.querySelector(
+                        "strong"
+                    );
+
+
+                if (titulo) {
+
+                    titulo.textContent =
+                        `${horario} — ${nome}`;
+
+                }
+
+
+                const informacoes =
+                    tarefaEditando.querySelector(
+                        "p:not(.tempo-real)"
+                    );
+
+
+                if (informacoes) {
+
+                    informacoes.textContent =
+                        `⏱️ Planejado: ${duracao} | 📂 ${categoria} | 🔥 ${prioridade}`;
+
+                }
+
+
+                tarefaEditando =
+                    null;
+
+
+                if (modalTarefa) {
+
+                    modalTarefa.style.display =
+                        "none";
+
+                }
+
+
+                return;
+
+            }
+
+
+            // =========================================
+            // NOVA TAREFA
+            // =========================================
+
+            mostrarTarefa(
+                nome,
+                horario,
+                duracao,
+                categoria,
+                prioridade
+            );
+
+
+            atualizarDashboard();
+
+
+            // =========================================
+            // ENVIAR PARA O BANCO
+            // =========================================
+
+            const formTarefa =
+                document.getElementById(
+                    "formTarefa"
+                );
+
+
+            if (formTarefa) {
+
+                formTarefa.submit();
+
+            }
+
+        }
+    );
+
+}
+
+
+// =====================================================
+// MOSTRAR NOVA TAREFA
+// =====================================================
 
 function mostrarTarefa(
     nome,
@@ -185,14 +400,34 @@ function mostrarTarefa(
 ) {
 
     const lista =
-        document.getElementById("listaTarefas");
+        document.getElementById(
+            "listaTarefas"
+        );
+
+
+    if (!lista) {
+
+        return;
+
+    }
 
 
     const tarefa =
         document.createElement("div");
 
 
-    tarefa.classList.add("tarefa");
+    tarefa.classList.add(
+        "tarefa"
+    );
+
+
+    /*
+     * A tarefa nova ainda não possui ID,
+     * pois o ID será criado pelo banco.
+     *
+     * Depois que o formulário for enviado,
+     * o Flask recarrega o dashboard com o ID correto.
+     */
 
 
     tarefa.innerHTML = `
@@ -220,65 +455,104 @@ function mostrarTarefa(
 
         <div>
 
-            <button class="iniciar">
+            <button
+                class="iniciar"
+                type="button"
+            >
                 ▶ Iniciar
             </button>
 
-            <button class="concluir">
+            <button
+                class="concluir"
+                type="button"
+            >
                 ✓ Concluir
             </button>
 
-            <button class="editar">
+            <button
+                class="editar"
+                type="button"
+            >
                 ✏️ Editar
             </button>
 
-            <button class="excluir">
+            <button
+                class="excluir"
+                type="button"
+            >
                 🗑️ Excluir
             </button>
-
 
         </div>
 
     `;
 
 
-    lista.appendChild(tarefa);
-
-
-    // ========================================
-    // EXCLUIR
-    // ========================================
-
-    const botaoExcluir =
-        tarefa.querySelector(".excluir");
-
-        const botaoEditar =
-    tarefa.querySelector(".editar");
-
-    botaoExcluir.addEventListener(
-        "click",
-        function () {
-
-            tarefa.remove();
-            atualizarDashboard();
-
-        }
+    lista.appendChild(
+        tarefa
     );
 
 
-    // ========================================
-    // CRONÔMETRO
-    // ========================================
+    configurarTarefa(
+        tarefa,
+        {
+            nome,
+            horario,
+            duracao,
+            categoria,
+            prioridade
+        }
+    );
+
+}
+
+
+// =====================================================
+// CONFIGURAR TAREFA
+// =====================================================
+
+function configurarTarefa(
+    tarefa,
+    dados = {}
+) {
+
+    const botaoExcluir =
+        tarefa.querySelector(
+            ".excluir"
+        );
+
+    const botaoEditar =
+        tarefa.querySelector(
+            ".editar"
+        );
 
     const botaoIniciar =
-        tarefa.querySelector(".iniciar");
+        tarefa.querySelector(
+            ".iniciar"
+        );
 
-const botaoConcluir =
-    tarefa.querySelector(".concluir");
-    
+    const botaoConcluir =
+        tarefa.querySelector(
+            ".concluir"
+        );
+
     const tempoReal =
-        tarefa.querySelector(".tempo-real");
+        tarefa.querySelector(
+            ".tempo-real"
+        );
 
+
+    // =================================================
+    // ID DA TAREFA
+    // =================================================
+
+    const tarefaId =
+        tarefa.dataset.id;
+
+
+    // =================================================
+    // VARIÁVEIS DO CRONÔMETRO
+    // =================================================
 
     let segundos = 0;
 
@@ -287,115 +561,116 @@ const botaoConcluir =
     let executando = false;
 
 
+    // =================================================
+    // FORMATAR TEMPO
+    // =================================================
 
-// ========================================
-// EDITAR TAREFA
-// ========================================
-botaoEditar.addEventListener(
-    "click",
-    function () {
+    function formatarTempo(totalSegundos) {
 
-        tarefaEditando = tarefa;
+        const horas =
+            Math.floor(
+                totalSegundos / 3600
+            );
 
+        const minutos =
+            Math.floor(
+                (totalSegundos % 3600) / 60
+            );
 
-        document.getElementById("nomeTarefa").value =
-            nome;
-
-        document.getElementById("horarioTarefa").value =
-            horario;
-
-        document.getElementById("duracaoTarefa").value =
-            duracao;
-
-        document.getElementById("categoriaTarefa").value =
-            categoria;
-
-        document.getElementById("prioridadeTarefa").value =
-            prioridade;
+        const segundosRestantes =
+            totalSegundos % 60;
 
 
-        document.getElementById("modalTarefa").style.display =
-            "flex";
+        const h =
+            String(horas)
+                .padStart(2, "0");
+
+        const m =
+            String(minutos)
+                .padStart(2, "0");
+
+        const s =
+            String(segundosRestantes)
+                .padStart(2, "0");
+
+
+        return `${h}:${m}:${s}`;
 
     }
-);
-
-    // ========================================
-// CONCLUIR TAREFA
-// ========================================
-botaoConcluir.addEventListener(
-    "click",
-    function () {
 
 
-        // CONCLUIR
-        if (!tarefa.classList.contains("concluida")) {
+    // =================================================
+    // ATUALIZAR TEMPO DA TAREFA
+    // =================================================
+
+    function atualizarTempoTarefa() {
+
+        if (tempoReal) {
+
+            tempoReal.textContent =
+                `⏱️ Tempo realizado: ${formatarTempo(segundos)}`;
+
+        }
+
+    }
 
 
-            // PARAR CRONÔMETRO
-            if (intervalo) {
+    // =================================================
+    // PARAR CRONÔMETRO
+    // =================================================
 
-                clearInterval(intervalo);
+    function pararCronometro() {
 
-                intervalo = null;
+        if (intervalo !== null) {
 
-            }
+            clearInterval(
+                intervalo
+            );
 
-
-            executando = false;
-
-
-            tarefa.classList.add("concluida");
-
-
-            botaoConcluir.textContent =
-                "↩️ Reabrir";
-
-
-            botaoIniciar.textContent =
-                "▶ Finalizado";
-
-
-            botaoIniciar.disabled = true;
-
-
-        } 
-
-
-        // REABRIR
-        else {
-
-
-            tarefa.classList.remove("concluida");
-
-
-            botaoConcluir.textContent =
-                "✓ Concluir";
-
-
-            botaoIniciar.textContent =
-                "▶ Continuar";
-
-
-            botaoIniciar.disabled = false;
-
+            intervalo = null;
 
         }
 
 
-        atualizarDashboard();
-
+        executando = false;
 
     }
-);
 
 
+    // =================================================
+    // INICIAR / PAUSAR
+    // =================================================
 
-    botaoIniciar.addEventListener(
-        "click",
-        function () {
+    if (botaoIniciar) {
 
-            if (!executando) {
+        botaoIniciar.addEventListener(
+            "click",
+            function () {
+
+                if (
+                    tarefa.classList.contains(
+                        "concluida"
+                    )
+                ) {
+
+                    return;
+
+                }
+
+
+                if (executando) {
+
+                    pararCronometro();
+
+
+                    botaoIniciar.textContent =
+                        "▶ Continuar";
+
+
+                    return;
+
+                }
+
 
                 executando = true;
 
@@ -404,441 +679,314 @@ botaoConcluir.addEventListener(
                     "⏸️ Pausar";
 
 
-intervalo = setInterval(
-    function () {
-
-        segundos++;
-
-        tempoFocoTotal++;
-
-
-console.log(
-    "Tempo foco:",
-    tempoFocoTotal
-);
-        
-        atualizarTempoFoco();
-        atualizarDashboard();
-       
-
-        const horas =
-            Math.floor(
-                segundos / 3600
-            );
-
-
-        const minutos =
-            Math.floor(
-                (segundos % 3600) / 60
-            );
-
-
-        const segundosRestantes =
-            segundos % 60;
-
-
-        const h =
-            String(horas)
-                .padStart(2, "0");
-
-
-        const m =
-            String(minutos)
-                .padStart(2, "0");
-
-
-        const s =
-            String(segundosRestantes)
-                .padStart(2, "0");
-
-
-        tempoReal.textContent =
-            `⏱️ Tempo realizado: ${h}:${m}:${s}`;
-
-    },
-    1000
-);
-
-
-
-            } else {
-
-                executando = false;
-
-
-                clearInterval(intervalo);
-
-
-                botaoIniciar.textContent =
-                    "▶ Continuar";
-
-            }
-
-        }
-    );
-
-}
-
-
-
-// ========================================
-// ATUALIZAR DASHBOARD
-// ========================================
-function atualizarDashboard() {
-
-    // ========================================
-    // TOTAL DE TAREFAS
-    // ========================================
-
-    const totalTarefas =
-        document.querySelectorAll(
-            ".tarefa"
-        ).length;
-
-
-    const cardTarefas =
-        document.getElementById(
-            "totalTarefas"
-        );
-
-
-    if (cardTarefas) {
-
-        cardTarefas.textContent =
-            totalTarefas;
-
-    }
-
-
-    // ========================================
-    // TAREFAS CONCLUÍDAS
-    // ========================================
-
-    const tarefasConcluidas =
-        document.querySelectorAll(
-            ".tarefa.concluida"
-        ).length;
-
-
-    const cardConcluidas =
-        document.getElementById(
-            "tarefasConcluidas"
-        );
-
-
-    if (cardConcluidas) {
-
-        cardConcluidas.textContent =
-            tarefasConcluidas;
-
-    }
-
-
-    // Atualizar tempo de foco
-
-    const horas =
-        Math.floor(
-            tempoFocoTotal / 3600
-        );
-
-
-    const minutos =
-        Math.floor(
-            (tempoFocoTotal % 3600) / 60
-        );
-
-
-    const segundos =
-        tempoFocoTotal % 60;
-
-
-    const h =
-        String(horas).padStart(2, "0");
-
-
-    const m =
-        String(minutos).padStart(2, "0");
-
-
-    const s =
-        String(segundos).padStart(2, "0");
-
-
-    const elementoFoco =
-        document.getElementById(
-            "tempoFoco"
-        );
-
-
-    if (elementoFoco) {
-
-        elementoFoco.textContent =
-            `${h}:${m}:${s}`;
-
-    }
-
-}
-
-
-function atualizarTempoFoco() {
-
-
-    const horas =
-        Math.floor(
-            tempoFocoTotal / 3600
-        );
-
-
-    const minutos =
-        Math.floor(
-            (tempoFocoTotal % 3600) / 60
-        );
-
-
-    const segundos =
-        tempoFocoTotal % 60;
-
-
-    const tempoFormatado =
-        String(horas).padStart(2,"0")
-        + ":" +
-        String(minutos).padStart(2,"0")
-        + ":" +
-        String(segundos).padStart(2,"0");
-
-
-    const cardTempoFoco =
-        document.getElementById(
-            "tempoFoco"
-        );
-
-
-    if(cardTempoFoco){
-
-        cardTempoFoco.innerHTML =
-            tempoFormatado;
-
-    } else {
-
-        console.log(
-            "Elemento tempoFoco não encontrado"
-        );
-
-    }
-
-}
-
-
-function atualizarSaudacao() {
-
-    const agora = new Date();
-
-    const hora = agora.getHours();
-
-    let saudacao;
-
-
-    if (hora >= 5 && hora < 12) {
-
-        saudacao = "Bom dia";
-
-    } else if (hora >= 12 && hora < 18) {
-
-        saudacao = "Boa tarde";
-
-    } else {
-
-        saudacao = "Boa noite";
-
-    }
-
-
-    const nomeUsuario =
-        document.getElementById(
-            "nomeUsuario"
-        ).textContent.trim();
-
-
-    document.getElementById(
-        "saudacao"
-    ).textContent =
-        `${saudacao}, ${nomeUsuario} 👋`;
-
-}
-
-
-atualizarSaudacao();
-
-
-// ========================================
-// ATIVAR BOTÕES DAS TAREFAS CARREGADAS DO BANCO
-// ========================================
-
-document.querySelectorAll(".tarefa").forEach(
-    function(tarefa) {
-
-
-        const botaoExcluir =
-            tarefa.querySelector(".excluir");
-
-
-        const botaoIniciar =
-            tarefa.querySelector(".iniciar");
-
-
-        const botaoConcluir =
-            tarefa.querySelector(".concluir");
-
-
-        const tempoReal =
-            tarefa.querySelector(".tempo-real");
-
-
-        let segundos = 0;
-
-        let intervalo = null;
-
-        let executando = false;
-
-
-
-        // EXCLUIR
-
-        if(botaoExcluir){
-
-            botaoExcluir.addEventListener(
-                "click",
-                function(){
-
-                    tarefa.remove();
-
-                    atualizarDashboard();
-
-                }
-            );
-
-        }
-
-
-
-        // CRONÔMETRO
-
-        if(botaoIniciar){
-
-            botaoIniciar.addEventListener(
-                "click",
-                function(){
-
-
-                    if(!executando){
-
-
-                        executando = true;
-
-
-                        botaoIniciar.textContent =
-                        "⏸️ Pausar";
-
-
-                        intervalo =
-                        setInterval(function(){
-
+                intervalo =
+                    setInterval(
+                        function () {
 
                             segundos++;
-                            tempoFocoTotal = tempoFocoTotal + 1;
 
-                             atualizarDashboard();
-
-
-                            let h =
-                            String(
-                                Math.floor(segundos / 3600)
-                            ).padStart(2,"0");
+                            tempoFocoTotal++;
 
 
-                            let m =
-                            String(
-                                Math.floor(
-                                    (segundos % 3600) / 60
-                                )
-                            ).padStart(2,"0");
+                            atualizarTempoTarefa();
+
+                            atualizarTempoFoco();
+
+                        },
+                        1000
+                    );
+
+            }
+        );
+
+    }
 
 
-                            let s =
-                            String(
-                                segundos % 60
-                            ).padStart(2,"0");
+    // =================================================
+    // CONCLUIR / REABRIR
+    // =================================================
+
+    if (botaoConcluir) {
+
+        botaoConcluir.addEventListener(
+            "click",
+            function () {
+
+                if (
+                    !tarefa.classList.contains(
+                        "concluida"
+                    )
+                ) {
+
+                    pararCronometro();
 
 
-                            tempoReal.textContent =
-                            `⏱️ Tempo realizado: ${h}:${m}:${s}`;
-
-
-                        },1000);
-
-
-
-                    } else {
-
-
-                        executando = false;
-
-
-                        clearInterval(intervalo);
-
-
-                        botaoIniciar.textContent =
-                        "▶ Continuar";
-
-                    }
-
-
-                }
-            );
-
-        }
-
-
-
-        // CONCLUIR
-
-        if(botaoConcluir){
-
-            botaoConcluir.addEventListener(
-                "click",
-                function(){
-
-
-                    tarefa.classList.toggle(
+                    tarefa.classList.add(
                         "concluida"
                     );
 
 
-                    if(
-                    tarefa.classList.contains("concluida")
-                    ){
-
-                        botaoConcluir.textContent =
+                    botaoConcluir.textContent =
                         "↩️ Reabrir";
 
 
-                    }else{
+                    if (botaoIniciar) {
 
+                        botaoIniciar.textContent =
+                            "▶ Finalizado";
 
-                        botaoConcluir.textContent =
-                        "✓ Concluir";
+                        botaoIniciar.disabled =
+                            true;
 
                     }
 
+                }
 
-                    atualizarDashboard();
+                else {
 
+                    tarefa.classList.remove(
+                        "concluida"
+                    );
+
+
+                    botaoConcluir.textContent =
+                        "✓ Concluir";
+
+
+                    if (botaoIniciar) {
+
+                        botaoIniciar.disabled =
+                            false;
+
+                        botaoIniciar.textContent =
+                            "▶ Continuar";
+
+                    }
 
                 }
+
+
+                atualizarDashboard();
+
+            }
+        );
+
+    }
+
+
+    // =================================================
+    // EDITAR
+    // =================================================
+
+    if (botaoEditar) {
+
+        botaoEditar.addEventListener(
+            "click",
+            function () {
+
+                tarefaEditando =
+                    tarefa;
+
+
+                const nomeTarefa =
+                    document.getElementById(
+                        "nomeTarefa"
+                    );
+
+                const horarioTarefa =
+                    document.getElementById(
+                        "horarioTarefa"
+                    );
+
+                const duracaoTarefa =
+                    document.getElementById(
+                        "duracaoTarefa"
+                    );
+
+                const categoriaTarefa =
+                    document.getElementById(
+                        "categoriaTarefa"
+                    );
+
+                const prioridadeTarefa =
+                    document.getElementById(
+                        "prioridadeTarefa"
+                    );
+
+
+                if (nomeTarefa) {
+
+                    nomeTarefa.value =
+                        dados.nome || "";
+
+                }
+
+
+                if (horarioTarefa) {
+
+                    horarioTarefa.value =
+                        dados.horario || "";
+
+                }
+
+
+                if (duracaoTarefa) {
+
+                    duracaoTarefa.value =
+                        dados.duracao || "";
+
+                }
+
+
+                if (categoriaTarefa) {
+
+                    categoriaTarefa.value =
+                        dados.categoria || "";
+
+                }
+
+
+                if (prioridadeTarefa) {
+
+                    prioridadeTarefa.value =
+                        dados.prioridade || "";
+
+                }
+
+
+                if (modalTarefa) {
+
+                    modalTarefa.style.display =
+                        "flex";
+
+                }
+
+            }
+        );
+
+    }
+
+
+    // =================================================
+    // EXCLUIR TAREFA
+    // =================================================
+
+    if (botaoExcluir) {
+
+        botaoExcluir.addEventListener(
+            "click",
+            function () {
+
+                // -------------------------------------
+                // VERIFICAR ID
+                // -------------------------------------
+
+                if (!tarefaId) {
+
+                    console.error(
+                        "Não foi possível excluir a tarefa: ID não encontrado."
+                    );
+
+                    return;
+
+                }
+
+
+                // -------------------------------------
+                // CONFIRMAÇÃO
+                // -------------------------------------
+
+                const confirmar =
+                    confirm(
+                        "Tem certeza que deseja excluir esta tarefa?"
+                    );
+
+
+                if (!confirmar) {
+
+                    return;
+
+                }
+
+
+                // -------------------------------------
+                // PARAR CRONÔMETRO
+                // -------------------------------------
+
+                pararCronometro();
+
+
+                // -------------------------------------
+                // CRIAR FORMULÁRIO
+                // -------------------------------------
+
+                const form =
+                    document.createElement(
+                        "form"
+                    );
+
+
+                form.method =
+                    "POST";
+
+
+                form.action =
+                    `/excluir_tarefa/${tarefaId}`;
+
+
+                // -------------------------------------
+                // ENVIAR PARA O FLASK
+                // -------------------------------------
+
+                document.body.appendChild(
+                    form
+                );
+
+
+                form.submit();
+
+            }
+        );
+
+    }
+
+
+    atualizarTempoTarefa();
+
+}
+
+
+// =====================================================
+// ATIVAR TAREFAS CARREGADAS DO BANCO
+// =====================================================
+
+document
+    .querySelectorAll(".tarefa")
+    .forEach(
+        function (tarefa) {
+
+            configurarTarefa(
+                tarefa
             );
 
         }
+    );
 
 
-    }
+// =====================================================
+// ATUALIZAÇÃO INICIAL
+// =====================================================
+
+atualizarDashboard();
+
+atualizarSaudacao();
+
+
+// =====================================================
+// LOG
+// =====================================================
+
+console.log(
+    "Tempo de foco iniciado:",
+    tempoFocoTotal
 );
