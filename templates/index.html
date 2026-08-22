@@ -1,669 +1,227 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | Gestão de Tempo</title>
-
-    <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='css/style.css') }}"
-    >
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-
-
 <body>
-
 <div class="app-container">
 
-
-    <!-- =========================================
-         SIDEBAR
-    ========================================== -->
-
+    <!-- SIDEBAR -->
     <aside class="sidebar">
-
         <div class="brand">
-
-            <div class="brand-logo">
-                ⏱
-            </div>
-
+            <div class="brand-logo">⏱</div>
             <div>
-
                 <strong>Gestão</strong>
                 <span>de Tempo</span>
-
             </div>
-
         </div>
-
-
         <nav class="menu">
-
-            <a href="{{ url_for('dashboard') }}"
-               class="menu-item active">
-
+            <a href="{{ url_for('dashboard') }}" class="menu-item active">
                 <span>▦</span>
-
                 Dashboard
-
             </a>
-
+            <a href="{{ url_for('ajuda') }}" class="menu-item">
+                <span>❓</span>
+                Central de Ajuda
+            </a>
         </nav>
-
-
         <div class="sidebar-bottom">
-
             <div class="sidebar-info">
-
                 <span class="status-dot"></span>
-
                 Sistema online
-
             </div>
-
-
-            <a href="{{ url_for('logout') }}"
-               class="logout">
-
-                ↪
-
-                Sair
-
-            </a>
-
+            <a href="{{ url_for('logout') }}" class="logout">↪ Sair</a>
         </div>
-
     </aside>
 
-
-
-    <!-- =========================================
-         CONTEÚDO
-    ========================================== -->
-
+    <!-- CONTEÚDO -->
     <main class="main-content">
 
-
-        <!-- =====================================
-             HEADER
-        ====================================== -->
-
         <header class="topbar">
-
             <div>
-
-                <span class="page-label">
-                    DASHBOARD
-                </span>
-
-                <h1 id="saudacao">
-                    Olá 👋
-                </h1>
-
-                <span
-                    id="nomeUsuario"
-                    class="nome-usuario"
-                    style="display:none;"
-                >
-                    {{ usuario.nome }}
-                </span>
-
-                <p>
-                    Organize seu dia e transforme seu tempo em resultados.
-                </p>
-
+                <span class="page-label">DASHBOARD</span>
+                <h1 id="saudacao" data-nome="{{ usuario.nome.split(' ')[0] }}">Olá, {{ usuario.nome.split(' ')[0] }} 👋</h1>
+                <p>Organize seu dia e transforme seu tempo em resultados.</p>
             </div>
-
-
             <div class="clock-box">
-
-                <span class="clock-icon">
-                    ◷
-                </span>
-
+                <span class="clock-icon">◷</span>
                 <div>
-
-                    <small>
-                        HORÁRIO ATUAL
-                    </small>
-
-                    <strong id="relogio">
-                        00:00:00
-                    </strong>
-
+                    <small>HORÁRIO ATUAL</small>
+                    <strong id="relogio">00:00:00</strong>
                 </div>
-
             </div>
-
         </header>
 
-
-
-        <!-- =====================================
-             CARDS
-        ====================================== -->
-
         <section class="stats-grid">
-
-
             <div class="stat-card">
-
-                <div class="stat-icon blue">
-                    ◫
-                </div>
-
+                <div class="stat-icon blue">◫</div>
                 <div>
-
-                    <span>
-                        TOTAL DE TAREFAS
-                    </span>
-
-                    <strong id="totalTarefas">
-                        {{ total_tarefas }}
-                    </strong>
-
+                    <span>TOTAL DE TAREFAS</span>
+                    <strong id="totalTarefas">{{ total_tarefas }}</strong>
                 </div>
-
             </div>
-
-
             <div class="stat-card">
-
-                <div class="stat-icon orange">
-                    ✓
-                </div>
-
+                <div class="stat-icon orange">✓</div>
                 <div>
-
-                    <span>
-                        CONCLUÍDAS
-                    </span>
-
-                    <strong id="tarefasConcluidas">
-                        0
-                    </strong>
-
+                    <span>CONCLUÍDAS</span>
+                    <strong id="tarefasConcluidas">{{ tarefas_concluidas }}</strong>
                 </div>
-
             </div>
-
-
             <div class="stat-card">
-
-                <div class="stat-icon purple">
-                    ◷
-                </div>
-
+                <div class="stat-icon purple">◷</div>
                 <div>
-
-                    <span>
-                        TEMPO DE FOCO
-                    </span>
-
-                    <strong id="tempoFoco">
-                        00:00:00
-                    </strong>
-
+                    <span>TEMPO DE FOCO</span>
+                    <strong id="tempoFoco" data-segundos="{{ tempo_foco_segundos }}">00:00:00</strong>
                 </div>
-
             </div>
-
-
         </section>
-
-
-
-        <!-- =====================================
-             CABEÇALHO DAS TAREFAS
-        ====================================== -->
 
         <section class="tasks-section">
-
-
             <div class="section-header">
-
                 <div>
-
-                    <span class="section-label">
-                        PLANEJAMENTO
-                    </span>
-
-                    <h2>
-                        Minhas tarefas
-                    </h2>
-
+                    <span class="section-label">PLANEJAMENTO</span>
+                    <h2>Minhas tarefas</h2>
                 </div>
-
-
-                <button
-                    id="novaTarefa"
-                    class="btn-new"
-                >
-
+                <button id="novaTarefa" class="btn-new">
                     <span>＋</span>
-
                     Nova tarefa
-
                 </button>
-
             </div>
 
-
-
-            <!-- =================================
-                 LISTA DE TAREFAS
-            ================================== -->
-
-            <div
-                id="listaTarefas"
-                class="lista-tarefas"
-            >
-
-
+            <div id="listaTarefas" class="lista-tarefas">
                 {% for tarefa in tarefas %}
-
-                <div
-                    class="tarefa"
-                    data-id="{{ tarefa.id }}"
-                >
-
+                <div class="tarefa {% if tarefa.status == 'concluida' %}concluida{% endif %}"
+                     data-id="{{ tarefa.id }}"
+                     data-status="{{ tarefa.status }}"
+                     data-horario="{{ tarefa.horario }}"
+                     data-nome="{{ tarefa.nome }}"
+                     data-duracao="{{ tarefa.duracao }}"
+                     data-categoria="{{ tarefa.categoria }}"
+                     data-prioridade="{{ tarefa.prioridade }}"
+                     data-inicio-real="{{ tarefa.inicio_real.strftime('%H:%M:%S') if tarefa.inicio_real else '' }}"
+                     data-fim-real="{{ tarefa.fim_real.strftime('%H:%M:%S') if tarefa.fim_real else '' }}"
+                     data-tempo-real-segundos="{{ tarefa.tempo_real_segundos or 0 }}">
 
                     <div class="tarefa-info">
-
-
-                        <div class="tarefa-horario">
-
-                            {{ tarefa.horario }}
-
-                        </div>
-
-
+                        <div class="tarefa-horario">{{ tarefa.horario }}</div>
                         <div class="tarefa-detalhes">
-
-                            <strong>
-                                {{ tarefa.horario }}
-                                —
-                                {{ tarefa.nome }}
-                            </strong>
-
-
+                            <strong>{{ tarefa.nome }}</strong>
                             <p>
-                                ⏱️ Planejado:
-                                {{ tarefa.duracao }}
-
+                                ⏱️ Planejado: {{ tarefa.duracao }}
                                 <span>•</span>
-
                                 📂 {{ tarefa.categoria }}
-
                                 <span>•</span>
-
                                 🔥 {{ tarefa.prioridade }}
                             </p>
-
-
-                            <p class="tempo-real">
-
-                                ⏱️ Tempo realizado:
-                                00:00:00
-
+                            <p class="tempo-inicio-fim">
+                                ▶️ Início:
+                                <span class="inicio-real">{{ tarefa.inicio_real.strftime('%H:%M:%S') if tarefa.inicio_real else '—' }}</span>
+                                <span>•</span>
+                                🏁 Fim:
+                                <span class="fim-real">{{ tarefa.fim_real.strftime('%H:%M:%S') if tarefa.fim_real else '—' }}</span>
                             </p>
-
+                            <p class="tempo-real">
+                                ⏱️ Tempo realizado:
+                                <span class="tempo-real-valor">00:00:00</span>
+                            </p>
                         </div>
-
                     </div>
-
-
-
-                    <!-- BOTÕES -->
 
                     <div class="tarefa-acoes">
-
-
-                        <button
-                            class="iniciar btn-task btn-start"
-                        >
-
-                            ▶
-
-                            <span>
-                                Iniciar
-                            </span>
-
+                        <button class="iniciar btn-task btn-start"
+                                {% if tarefa.status != 'pendente' %}disabled{% endif %}>
+                            ▶ <span>Iniciar</span>
+                        </button>
+                        <button class="concluir btn-task btn-complete"
+                                {% if tarefa.status == 'concluida' %}disabled{% endif %}>
+                            ✓ <span>Concluir</span>
                         </button>
 
-
-                        <button
-                            class="concluir btn-task btn-complete"
-                        >
-
-                            ✓
-
-                            <span>
-                                Concluir
-                            </span>
-
+                        <button type="button" class="editar btn-task btn-edit">
+                            ✎ <span>Editar</span>
                         </button>
 
-
-                        <form
-                            method="POST"
-                            action="{{ url_for('editar_tarefa', tarefa_id=tarefa.id) }}"
-                            class="form-editar"
-                        >
-
-                            <button
-                                type="button"
-                                class="editar btn-task btn-edit"
-                            >
-
-                                ✎
-
-                                <span>
-                                    Editar
-                                </span>
-
+                        <form method="POST"
+                              action="{{ url_for('excluir_tarefa', tarefa_id=tarefa.id) }}">
+                            <button type="submit" class="excluir btn-task btn-delete">
+                                🗑 <span>Excluir</span>
                             </button>
-
                         </form>
-
-
-                        <form
-                            method="POST"
-                            action="{{ url_for('excluir_tarefa', tarefa_id=tarefa.id) }}"
-                        >
-
-                            <button
-                                type="submit"
-                                class="excluir btn-task btn-delete"
-                            >
-
-                                🗑
-
-                                <span>
-                                    Excluir
-                                </span>
-
-                            </button>
-
-                        </form>
-
-
                     </div>
-
-
                 </div>
-
                 {% endfor %}
 
-
-
                 {% if not tarefas %}
-
                 <div class="empty-state">
-
-                    <div class="empty-icon">
-                        ✓
-                    </div>
-
-                    <h3>
-                        Seu dia começa aqui
-                    </h3>
-
-                    <p>
-                        Crie sua primeira tarefa e comece
-                        a organizar seu tempo.
-                    </p>
-
-                    <button
-                        class="btn-new"
-                        onclick="document.getElementById('novaTarefa').click()"
-                    >
-
+                    <div class="empty-icon">✓</div>
+                    <h3>Seu dia começa aqui</h3>
+                    <p>Crie sua primeira tarefa e comece a organizar seu tempo.</p>
+                    <button class="btn-new" onclick="document.getElementById('novaTarefa').click()">
                         ＋ Criar primeira tarefa
-
                     </button>
-
                 </div>
-
                 {% endif %}
-
-
             </div>
-
         </section>
-
-
     </main>
-
 </div>
 
-
-
-<!-- =========================================
-     MODAL NOVA TAREFA
-========================================== -->
-
-<div
-    id="modalTarefa"
-    class="modal"
->
-
-
+<!-- MODAL NOVA TAREFA / EDITAR TAREFA -->
+<div id="modalTarefa" class="modal" data-url-criar="{{ url_for('criar_tarefa') }}">
     <div class="modal-box">
-
-
         <div class="modal-header">
-
             <div>
-
-                <span>
-                    PLANEJAMENTO
-                </span>
-
-                <h2>
-                    Nova tarefa
-                </h2>
-
+                <span>PLANEJAMENTO</span>
+                <h2 id="modalTitulo">Nova tarefa</h2>
             </div>
-
-
-            <button
-                id="fecharModal"
-                class="fechar-modal"
-            >
-                ×
-            </button>
-
+            <button id="fecharModal" class="fechar-modal">×</button>
         </div>
-
-
-
-        <form
-            id="formTarefa"
-            method="POST"
-            action="{{ url_for('criar_tarefa') }}"
-        >
-
-
+        <form id="formTarefa" method="POST" action="{{ url_for('criar_tarefa') }}">
             <div class="form-grid">
-
-
                 <div class="form-group full">
-
-                    <label>
-                        Nome da tarefa
-                    </label>
-
-                    <input
-                        type="text"
-                        id="nomeTarefa"
-                        name="nome"
-                        placeholder="Ex.: Estudar Python"
-                        required
-                    >
-
+                    <label>Nome da tarefa</label>
+                    <input type="text" id="nomeTarefa" name="nome" placeholder="Ex.: Estudar Python" required>
                 </div>
-
-
                 <div class="form-group">
-
-                    <label>
-                        Horário
-                    </label>
-
-                    <input
-                        type="time"
-                        id="horarioTarefa"
-                        name="horario"
-                        required
-                    >
-
+                    <label>Horário</label>
+                    <input type="time" id="horarioTarefa" name="horario" required>
                 </div>
-
-
                 <div class="form-group">
-
-                    <label>
-                        Duração
-                    </label>
-
-                    <input
-                        type="text"
-                        id="duracaoTarefa"
-                        name="duracao"
-                        placeholder="Ex.: 1h 30min"
-                        required
-                    >
-
+                    <label>Duração</label>
+                    <input type="text" id="duracaoTarefa" name="duracao" placeholder="Ex.: 1h 30min" required>
                 </div>
-
-
                 <div class="form-group">
-
-                    <label>
-                        Categoria
-                    </label>
-
-                    <select
-                        id="categoriaTarefa"
-                        name="categoria"
-                        required
-                    >
-
-                        <option value="">
-                            Selecionar
-                        </option>
-
-                        <option>
-                            Trabalho
-                        </option>
-
-                        <option>
-                            Estudos
-                        </option>
-
-                        <option>
-                            Pessoal
-                        </option>
-
-                        <option>
-                            Saúde
-                        </option>
-
-                        <option>
-                            Outros
-                        </option>
-
+                    <label>Categoria</label>
+                    <select id="categoriaTarefa" name="categoria" required>
+                        <option value="">Selecionar</option>
+                        <option>Trabalho</option>
+                        <option>Estudos</option>
+                        <option>Pessoal</option>
+                        <option>Saúde</option>
+                        <option>Outros</option>
                     </select>
-
                 </div>
-
-
                 <div class="form-group">
-
-                    <label>
-                        Prioridade
-                    </label>
-
-                    <select
-                        id="prioridadeTarefa"
-                        name="prioridade"
-                        required
-                    >
-
-                        <option value="">
-                            Selecionar
-                        </option>
-
-                        <option>
-                            Baixa
-                        </option>
-
-                        <option>
-                            Média
-                        </option>
-
-                        <option>
-                            Alta
-                        </option>
-
+                    <label>Prioridade</label>
+                    <select id="prioridadeTarefa" name="prioridade" required>
+                        <option value="">Selecionar</option>
+                        <option>Baixa</option>
+                        <option>Média</option>
+                        <option>Alta</option>
                     </select>
-
                 </div>
-
-
             </div>
-
-
-
             <div class="modal-footer">
-
-                <button
-                    type="button"
-                    id="cancelarTarefa"
-                    class="btn-cancelar"
-                >
-
-                    Cancelar
-
-                </button>
-
-
-                <button
-                    type="submit"
-                    id="salvarTarefa"
-                    class="btn-save"
-                >
-
-                    Salvar tarefa
-                    →
-
-                </button>
-
+                <button type="button" id="cancelarTarefa" class="btn-cancelar">Cancelar</button>
+                <button type="submit" id="salvarTarefa" class="btn-save">Salvar tarefa</button>
             </div>
-
-
         </form>
-
     </div>
-
 </div>
 
-
-
-<script
-    src="{{ url_for('static', filename='js/script.js') }}"
-></script>
-
-
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
-
 </html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Central de Ajuda | Gestão de Tempo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<div class="app-container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-logo">⏱</div>
+            <div>
+                <strong>Gestão</strong>
+                <span>de Tempo</span>
+            </div>
+        </div>
+        <nav class="menu">
+            <a href="{{ url_for('dashboard') }}" class="menu-item">
+                <span>▦</span>
+                Dashboard
+            </a>
+            <a href="{{ url_for('ajuda') }}" class="menu-item active">
+                <span>❓</span>
+                Central de Ajuda
+            </a>
+        </nav>
+        <div class="sidebar-bottom">
+            <div class="sidebar-info">
+                <span class="status-dot"></span>
+                Sistema online
+            </div>
+            <a href="{{ url_for('logout') }}" class="logout">↪ Sair</a>
+        </div>
+    </aside>
+
+    <!-- CONTEÚDO -->
+    <main class="main-content">
+
+        <header class="topbar">
+            <div>
+                <span class="page-label">SUPORTE</span>
+                <h1>Central de Ajuda</h1>
+                <p>Tudo o que você precisa saber para aproveitar o Gestão de Tempo.</p>
+            </div>
+        </header>
+
+        <!-- INÍCIO RÁPIDO -->
+        <section class="tasks-section">
+            <div class="section-header">
+                <div>
+                    <span class="section-label">PRIMEIROS PASSOS</span>
+                    <h2>Como começar</h2>
+                </div>
+            </div>
+
+            <div class="ajuda-steps">
+                <div class="ajuda-step">
+                    <div class="ajuda-step-numero">1</div>
+                    <div>
+                        <strong>Crie sua primeira tarefa</strong>
+                        <p>No Dashboard, clique em <b>＋ Nova tarefa</b> e preencha nome, horário, duração, categoria e prioridade.</p>
+                    </div>
+                </div>
+                <div class="ajuda-step">
+                    <div class="ajuda-step-numero">2</div>
+                    <div>
+                        <strong>Inicie quando começar a trabalhar nela</strong>
+                        <p>Clique em <b>▶ Iniciar</b> — o horário de início real é salvo e o cronômetro começa a contar.</p>
+                    </div>
+                </div>
+                <div class="ajuda-step">
+                    <div class="ajuda-step-numero">3</div>
+                    <div>
+                        <strong>Conclua ao terminar</strong>
+                        <p>Clique em <b>✓ Concluir</b> — o horário de fim e o tempo total realizado ficam registrados.</p>
+                    </div>
+                </div>
+                <div class="ajuda-step">
+                    <div class="ajuda-step-numero">4</div>
+                    <div>
+                        <strong>Acompanhe seu progresso</strong>
+                        <p>Os cards no topo do Dashboard mostram total de tarefas, concluídas e seu tempo de foco acumulado.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PERGUNTAS FREQUENTES -->
+        <section class="tasks-section" style="margin-top: 44px;">
+            <div class="section-header">
+                <div>
+                    <span class="section-label">DÚVIDAS COMUNS</span>
+                    <h2>Perguntas frequentes</h2>
+                </div>
+            </div>
+
+            <div class="ajuda-faq" id="ajudaFaq">
+
+                <div class="faq-item">
+                    <button class="faq-pergunta">
+                        <span>📝 Como crio uma nova tarefa?</span>
+                        <span class="faq-seta">⌄</span>
+                    </button>
+                    <div class="faq-resposta">
+                        <p>Clique no botão <b>＋ Nova tarefa</b> no Dashboard. Preencha o nome, o horário planejado, a duração estimada (ex.: "1h 30min"), a categoria e a prioridade, depois clique em <b>Salvar tarefa</b>.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-pergunta">
+                        <span>▶️ Qual a diferença entre horário planejado e início real?</span>
+                        <span class="faq-seta">⌄</span>
+                    </button>
+                    <div class="faq-resposta">
+                        <p>O <b>horário planejado</b> é quando você pretende começar. O <b>início real</b> é registrado automaticamente no momento exato em que você clica em "Iniciar" — mesmo que seja em um horário diferente do planejado.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-pergunta">
+                        <span>⏱️ Como funciona o tempo realizado?</span>
+                        <span class="faq-seta">⌄</span>
+                    </button>
+                    <div class="faq-resposta">
+                        <p>Assim que você clica em "Iniciar", um cronômetro passa a contar em tempo real. Ao clicar em "Concluir", o tempo total é calculado (fim real − início real) e fica salvo permanentemente, mesmo se você fechar o navegador.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-pergunta">
+                        <span>🔔 Por que não recebo notificações?</span>
+                        <span class="faq-seta">⌄</span>
+                    </button>
+                    <div class="faq-resposta">
+                        <p>O navegador pede permissão para notificações na primeira vez que você acessa o Dashboard. Se você negou sem querer, clique no ícone de cadeado ao lado da URL, vá em <b>Permissões do site → Notificações</b> e permita. Sem permissão, os avisos aparecem como uma caixinha (toast) no canto da tela.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-pergunta">
+                        <span>✎ Como edito uma tarefa?</span>
+                        <span class="faq-seta">⌄</span>
+                    </button>
+                    <div class="faq-resposta">
+                        <p>Clique em <b>✎ Editar</b> no card da tarefa. O mesmo formulário de criação abre, já preenchido — altere o que quiser e clique em <b>Salvar alterações</b>.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-pergunta">
+                        <span>🗑 Excluí uma tarefa por engano, dá pra recuperar?</span>
+                        <span class="faq-seta">⌄</span>
+                    </button>
+                    <div class="faq-resposta">
+                        <p>Não. A exclusão é permanente e remove a tarefa do banco de dados imediatamente. Tenha cuidado ao clicar em "Excluir".</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-pergunta">
+                        <span>🔑 Esqueci minha senha, e agora?</span>
+                        <span class="faq-seta">⌄</span>
+                    </button>
+                    <div class="faq-resposta">
+                        <p>Na tela de login, clique em <b>Esqueci minha senha</b>, informe seu e-mail cadastrado e siga o link de redefinição, que é válido por 15 minutos.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
